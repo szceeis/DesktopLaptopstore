@@ -10,111 +10,102 @@
         integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Pacifico&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url(bg-laptop2.jpg);
+            background-size: cover;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+        }
+
+        .navbar {
+            background-color: rgba(155, 89, 182, 0.8) !important;
+        }
+
+        .btn-outline-primary,
+        .btn-outline-info,
+        .btn-outline-success,
+        .btn-outline-danger,
+        .btn-outline-light {
+            border-color: #9b59b6;
+            color: #9b59b6;
+        }
+
+        .btn-outline-primary:hover,
+        .btn-outline-info:hover,
+        .btn-outline-success:hover,
+        .btn-outline-danger:hover,
+        .btn-outline-light:hover {
+            background-color: #9b59b6;
+            color: white;
+        }
+
+        .card-body,
+        .list-group-item {
+            background-color: #f8f0fa !important;
+            color: #6a1b9a !important;
+        }
+
+        .alert-success {
+            background-color: #e1bee7;
+            border-color: #ba68c8;
+            color: #4a148c;
+        }
+    </style>
 </head>
 
-<body style="background-image: url(bg-laptop2.jpg); background-size: cover;">
-    <nav class="navbar" style="background-color: rgba(108, 117, 125, 0.7); font-family: 'Orbitron', sans-serif;">
-        <div class="container">
-            <h1 class="text-center  Helvetica Neue text-white ">HOME PAGE</h1>
-            <img src="{{ asset("logo.png") }}" alt="Bootstrap" width="185" height="73" style="border-radius: 10px;">
+<body>
+    <nav class="navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="text-white">HOME PAGE</h1>
         </div>
     </nav>
 
     <div class="container">
         <form action="{{ route('market') }}" method="GET" class="my-3 d-flex" role="search">
-            <input type="text" name="search" class="form-control me-2" style="border: 2px solid darkblue;"
+            <input type="text" name="search" class="form-control me-2" style="border: 2px solid #9b59b6;"
                 placeholder="Cari nama laptop..." value="{{ request('search') }}">
             <button class="btn btn-outline-primary" type="submit">Cari</button>
         </form>
         <button type="button" class="btn btn-outline-light mb-3" id="tambah">Tambah Data +</button>
+
         @if (session('success'))
             <div class="alert alert-success mt-3" role="alert">
                 {{ session('success') }}
             </div>
         @endif
-        <div class="row">
-            <!-- <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Merk</th>
-                        <th scope="col">Gambar</th>
-                        <th scope="col">Jumlah Barang</th>
-                        <th scope="col">Harga Barang</th>
-                        <th scope="col">Di buat</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $no = 1;
-                    @endphp
-                    @foreach ($data as $row)
-                        <tr>
-                            <th scope="row">{{ $no++ }}</th>
-                            <td>{{ $row->nama }}</td>
-                            <td>{{ $row->merk }}</td>
-                            <td>
-                                <img src="{{ asset('fotoMarket/' . $row->foto) }}" alt="" width="150">
-                            </td>
-                            <td>{{ $row->jumlah_barang }}</td>
-                            <td>Rp.{{ $row->harga_barang }}</td>
-                            <td>{{ $row->created_at->diffForHumans() }}</td>
-                            <td>
-                                <a href="/tampilData/{{ $row->id }}" class="btn btn-primary">Edit</a>
-                                <a href="/delete/{{ $row->id }}" class="btn btn-danger">Hapus</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table> -->
 
-            <div class="container d-flex flex-wrap justify-content-center gap-5 mb-5">
-
-                @foreach ($data as $row)
-                    <div class="card shadow bg-body-tertiary rounded" style="width: 18rem;">
-                        <div style="border:2px solid black; background-position: center; background-size: cover; ">
-
-                            <img src="{{ asset('fotoMarket/' . $row->foto) }}" class="card-img-center" alt="" width="250">
-                        </div>
-                        <div class="card-body bg-dark text-white">
-                            <h5 class="" name="nama">{{ $row->nama }}</h5>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item bg-dark text-white" nama="merk">{{ $row->merk }}</li>
-                            <li class="list-group-item bg-dark text-white" nama="jumlah_barang">Stock {{ $row->jumlah_barang }}</li>
-                            <li class="list-group-item bg-dark text-white" nama="harga_barang">Harga Rp.{{ number_format($row->harga_barang, 0, ',', '.') }}</li>
-                        </ul>
-                        <div class="card-body bg-dark text-white justify-content-center">
-                            <a href="/tampilData/{{ $row->id }}" class="btn btn-outline-info px-5">Edit</a>
-                            <a href="/delete/{{ $row->id }}" class="btn btn-outline-danger my-2" style="padding:0.5rem 2rem;">Hapus</a>
-                            <a href="/beli/{{ $row->id }}" class="btn btn-outline-success text-white" style="padding: 0.5rem 6.5rem;">Beli</a>
-                        </div>
+        <div class="container d-flex flex-wrap justify-content-center gap-5 mb-5">
+            @foreach ($data as $row)
+                <div class="card shadow rounded" style="width: 18rem;">
+                    <div style="border: 2px solid #9b59b6; background-position: center; background-size: cover;">
+                        <img src="{{ asset('fotoMarket/' . $row->foto) }}" class="card-img-top" alt="" width="250" style="max-height:200px; object-fit: cover;">
                     </div>
-                @endforeach
-            </div>
-
-
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $row->nama }}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ $row->merk }}</li>
+                        <li class="list-group-item">Stock {{ $row->jumlah_barang }}</li>
+                        <li class="list-group-item">Harga Rp.{{ number_format($row->harga_barang, 0, ',', '.') }}</li>
+                    </ul>
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="/tampilData/{{ $row->id }}" class="btn btn-outline-info w-75 my-1">Edit</a>
+                        <a href="/delete/{{ $row->id }}" class="btn btn-outline-danger w-75 my-1">Hapus</a>
+                        <a href="/beli/{{ $row->id }}" class="btn btn-outline-success w-75 my-1">Beli</a>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
-
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js"
-        integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D"
-        crossorigin="anonymous"></script>
-
     <script>
         document.getElementById('tambah').addEventListener('click', function () {
             window.location.href = '/tambahData';

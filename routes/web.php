@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/market', [MarketController::class, 'index'])->name('market');
+Route::get('/', [MarketController::class, 'index'])->name('market');
 
 Route::get('/tambahData', [MarketController::class, 'tambahData'])->name('tambahData');
 Route::post('/insertData', [MarketController::class, 'insertData'])->name('insertData');
